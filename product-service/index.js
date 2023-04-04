@@ -32,34 +32,34 @@ mongoose.connect(
 // }
 // connect();
 
-// app.post("/product/buy", isAuthenticated, async (req, res) => {
-//     const { ids } = req.body;
-//     const products = await Product.find({ _id: { $in: ids } });
-//     channel.sendToQueue(
-//         "ORDER",
-//         Buffer.from(
-//             JSON.stringify({
-//                 products,
-//                 userEmail: req.user.email,
-//             })
-//         )
-//     );
-//     channel.consume("PRODUCT", (data) => {
-//         order = JSON.parse(data.content);
-//     });
-//     return res.json(order);
-// });
+app.post("/product/buy", isAuthenticated, async (req, res) => {
+    const { ids } = req.body;
+    const products = await Product.find({ _id: { $in: ids } });
+    channel.sendToQueue(
+        "ORDER",
+        Buffer.from(
+            JSON.stringify({
+                products,
+                userEmail: req.user.email,
+            })
+        )
+    );
+    channel.consume("PRODUCT", (data) => {
+        order = JSON.parse(data.content);
+    });
+    return res.json(order);
+});
 
-// app.post("/product/create", isAuthenticated, async (req, res) => {
-//     const { name, description, price } = req.body;
-//     const newProduct = new Product({
-//         name,
-//         description,
-//         price,
-//     });
-//     newProduct.save();
-//     return res.json(newProduct);
-// });
+app.post("/product/create", isAuthenticated, async (req, res) => {
+    const { name, description, price } = req.body;
+    const newProduct = new Product({
+        name,
+        description,
+        price,
+    });
+    newProduct.save();
+    return res.json(newProduct);
+});
 
 
 app.listen(PORT, () => {
