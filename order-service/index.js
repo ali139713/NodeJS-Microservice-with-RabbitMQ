@@ -20,19 +20,19 @@ mongoose.connect(
 );
 app.use(express.json());
 
-// function createOrder(products, userEmail) {
-//     let total = 0;
-//     for (let t = 0; t < products.length; ++t) {
-//         total += products[t].price;
-//     }
-//     const newOrder = new Order({
-//         products,
-//         user: userEmail,
-//         total_price: total,
-//     });
-//     newOrder.save();
-//     return newOrder;
-// }
+function createOrder(products, userEmail) {
+    let total = 0;
+    for (let t = 0; t < products.length; ++t) {
+        total += products[t].price;
+    }
+    const newOrder = new Order({
+        products,
+        user: userEmail,
+        total_price: total,
+    });
+    newOrder.save();
+    return newOrder;
+}
 
 async function connect() {
     const amqpServer = "amqp://localhost:5672";
